@@ -1,0 +1,303 @@
+#include "GameplayFunctions.h"
+#include <string>
+#include <iostream>
+using namespace std;
+
+
+void GameplayFunctions :: setIsEnterInputFirstTime(bool b) 
+{
+  isEnterInputFirstTime = b;
+}
+
+void GameplayFunctions::createEmptyBoard(string board[10][10])
+{
+   for(int i=0; i<10; i++)
+   {
+     for(int j=0; j<10; j++)
+     {
+       board[i][j] = "|_|";
+     }      
+     cout<<endl;
+   } 
+}
+
+
+
+void GameplayFunctions :: inputEntry(string board[10][10],int row , int col)
+{ 
+  if(isEnterInputFirstTime)
+  {
+    createRandomMines(board,row,col,25);
+    isEnterInputFirstTime = false;
+  }
+    int num = GameplayFunctions :: getNoOfMines(row,col,board);
+    string n ="|"+to_string(num)+"|";
+    
+    board[row][col] = n;
+
+    GameplayFunctions ::fillNumsSurrounding(row,col,board); 
+}
+
+
+void GameplayFunctions:: showBoard(string board[10][10], bool isWon)
+{
+   int r = 0;
+   cout<<"\n====================================="<<endl;
+   cout<<"|                BOARD              |"<<endl;
+   cout<<"====================================="<<endl;   
+   cout<<"        0  1  2  3  4  5  6  7  8  9 "<<endl;
+   cout<<"        |  |  |  |  |  |  |  |  |  | "<<endl;
+   cout<<"        V  V  V  V  V  V  V  V  V  V "<<endl;
+   for(int i =0; i<10; i++)
+   {
+      cout<<r<<"-->   ";
+     for(int j=0; j<10; j++)
+     {
+        if(!isWon)
+        {
+              if(board[i][j] != "|x|")
+              {
+                cout<<board[i][j];
+              }
+              else if(board[i][j] == "|x|")
+              {
+                cout<<"|_|";
+              }
+        }
+        else if(isWon)
+        {
+          cout<<board[i][j];
+        }
+      }
+      r++;
+      cout<<endl;
+   }
+}
+
+
+void GameplayFunctions::createRandomMines(string board[10][10],int row,int col,int noOfMines)
+{
+  srand(time(0));
+  int randRow ;int randCol;
+  for(int i=0; i<=noOfMines; i++)
+  {
+    do
+    {
+      randRow = rand() % 10;
+      randCol = rand() % 10;
+    }while(randRow == row && randCol == col);
+    
+    board[randRow][randCol] = "|x|";
+  }
+}
+
+bool GameplayFunctions::isBracketEmpty(string element)
+{ 
+  if( element == "|_|")
+  {
+    return true;
+  }
+  return false;
+}
+
+
+
+int GameplayFunctions::getNoOfMines(int row,int col,string board[10][10])
+{
+  int mines = 0;
+  
+  // 1 Check
+  if(row-1 >= 0 && col-1 >= 0)
+  {
+    if(board[row-1][col-1] == "|x|")
+    {
+      mines++;
+    }
+  }
+
+  // 2 Check  
+  if(row-1 >= 0)
+  {
+    if(board[row-1][col] == "|x|")
+    {
+      mines++;
+    }
+  }
+
+  // 3 Check
+  if(row-1 >= 0 && col+1 <= 9)
+  {
+    if(board[row-1][col+1] == "|x|")
+    {
+      mines++;
+    }
+  }
+
+  
+  // 4 Check
+  if(col-1 >= 0)
+  {
+    if(board[row][col-1] == "|x|")
+    {
+      mines++;
+    }
+  }
+
+  
+  // 5 Check
+  if(col+1 <= 9)
+  {
+    if(board[row][col+1] == "|x|")
+    {
+      mines++;
+    }
+  }
+
+  
+  // 6 Check
+  if(row+1 <= 9 && col-1 >= 0)
+  {
+    if(board[row+1][col-1] == "|x|")
+    {
+      mines++;
+    }
+  }
+
+  
+  // 7 Check
+  if(row+1 <= 9)
+  {
+    if(board[row+1][col] == "|x|")
+    {
+      mines++;
+    }
+  }
+
+
+  // 8 Check
+  if(row+1 <= 9 && col+1 <= 9)
+  {
+    if(board[row+1][col+1] == "|x|")
+    {
+      mines++;
+    }
+  }
+ return mines;
+}
+
+
+
+void GameplayFunctions::fillNumsSurrounding(int row,int col,string board[10][10])
+{
+  
+  // 1.
+  if(row-1 >= 0 && col-1 >= 0)
+  {
+    if(isBracketEmpty(board[row-1][col-1]))
+    {
+      board[row-1][col-1] ="|"+to_string(getNoOfMines(row-1,col-1,board))+"|";
+    }
+  }
+
+  // 2.
+  if(row-1 >= 0)
+  {
+    if(isBracketEmpty(board[row-1][col]))
+    {
+      board[row-1][col] ="|"+to_string(getNoOfMines(row-1,col,board))+"|";
+    }
+  }
+
+  // 3.
+  if((row-1) >= 0 && (col+1) <= 9)
+  {
+    if(isBracketEmpty(board[row-1][col+1]))
+    {
+      board[row-1][col+1] ="|"+to_string(getNoOfMines(row-1,col+1,board))+"|";
+    }
+  }
+
+  // 4.
+  if((col-1) >= 0)
+  {
+    if(isBracketEmpty(board[row][col-1]))
+    {
+      board[row][col-1] ="|"+to_string(getNoOfMines(row,col-1,board))+"|";
+    }
+  }
+
+  // 5.
+  if((col+1) <= 9)
+  {
+    if(isBracketEmpty(board[row][col+1]))
+    {
+      board[row][col+1] ="|"+to_string(getNoOfMines(row,col+1,board))+"|";
+    }
+  }
+
+
+  // 6.
+  if((row+1) <= 9 && (col-1) >= 0)
+  {
+    if(isBracketEmpty(board[row+1][col-1]))
+    {
+      board[row+1][col-1] ="|"+to_string(getNoOfMines(row+1,col-1,board))+"|";
+    }
+  }
+
+  // 7.
+  if((row+1) <= 9)
+  {
+    if(isBracketEmpty(board[row+1][col]))
+    {
+      board[row+1][col] ="|"+to_string(getNoOfMines(row,col,board))+"|";
+    }
+  }
+
+  // 8.
+  if((row+1) <= 9 && (col+1) <= 9)
+  {
+    if(isBracketEmpty(board[row+1][col+1]))
+    {
+      board[row+1][col+1] ="|"+to_string(getNoOfMines(row+1,col+1,board))+"|";
+    }
+  }
+}
+
+
+
+
+bool GameplayFunctions::isPlayerWon(string board[10][10])
+{
+  for(int i=0; i<10; i++)
+  {
+    for(int j=0; j<10; j++)
+    {
+     if(isBracketEmpty(board[i][j]))
+     {
+       return false;
+       break;
+     }
+    }
+  }
+  return true;
+}
+
+
+
+bool GameplayFunctions::isHopOnMine(string board[10][10],int row,int col)
+{
+  if(!GameplayFunctions::isEnterInputFirstTime)
+  {
+    if(board[row][col] == "|x|")
+    {
+    return true;
+    }
+  }
+ return false;
+}
+
+
+
+
+

@@ -1,0 +1,13 @@
+#pragma once 
+
+class DisplayFunctions 
+{
+  public :
+   
+   static void showTitle();
+   static void showRules();
+   static void showInstructions();
+   static void gameStartHeader();
+   static void validInputWarning();
+   static void GameOver();
+};

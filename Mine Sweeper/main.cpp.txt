@@ -1,0 +1,123 @@
+#include <iostream>
+#include "GameplayFunctions.h"
+#include "DisplayFunctions.h"
+using namespace std;
+
+
+bool GameplayFunctions :: isEnterInputFirstTime = true; 
+void MineSweeperGameplay();
+
+
+int main() 
+{
+  DisplayFunctions :: showTitle();
+  
+  string choice;
+ 
+ do
+ {
+  cout<<"\n=============================================================================================================================="<<endl;
+  cout<<"                                                          GAME MENU"<<endl; 
+  cout<<"=============================================================================================================================="<<endl;
+  cout<<" 1 -> Show Rules."<<endl;
+  cout<<" 2 -> Show Instructions."<<endl;
+  cout<<" 3 -> Play Game."<<endl;
+  cout<<" 4 -> Exit."<<endl;
+  cout<<" Enter your choice : ";
+  cin>>choice;
+
+  if(choice == "1")
+  {
+    DisplayFunctions :: showRules();
+  }    
+  else if(choice == "2")
+  {
+    DisplayFunctions :: showInstructions();    
+  }
+  else if(choice == "3")
+  { 
+    MineSweeperGameplay();
+    string ch;
+    do{
+    cout<<" 1 -> Return To Menu "<<endl;
+    cout<<" 2 -> Exit from GAME "<<endl;    
+    cout<<" Enter your choice : ";
+    cin>>ch;
+    if(ch == "2")
+    {
+      choice = "4";
+      break;
+    }
+    if(ch == "1")
+    {}
+    else
+    {
+      DisplayFunctions :: validInputWarning();
+    }
+    }while(ch != "1" && ch != "2");
+    GameplayFunctions :: setIsEnterInputFirstTime(true); 
+  }
+  else if( choice == "4")
+  {
+  }
+  else
+  {
+    DisplayFunctions :: validInputWarning();
+  }
+ }while(choice != "4");
+
+ cout<<"\n==========================================================================================================================="<<endl;
+ cout<<"|                                                                EXIT                                                      |"<<endl;
+ cout<<"==========================================================================================================================="<<endl; 
+}
+
+
+
+void MineSweeperGameplay()
+{
+  DisplayFunctions :: gameStartHeader();
+  
+ string board[10][10];
+ bool isWon = false;
+ GameplayFunctions::createEmptyBoard(board);
+ 
+ GameplayFunctions::showBoard(board,isWon);
+
+ cout<<"\n==========================================================================================================================="<<endl;
+
+ int xInput,yInput;
+
+ do
+ {
+  isWon = GameplayFunctions::isPlayerWon(board); 
+  do
+  {
+   cout<<"\nSelect the row (X Input) -->";
+   cin>>xInput;
+   cout<<"Select the coloumn (Y Input) -->";
+   cin>>yInput;
+  if(xInput < 0 || yInput < 0 || xInput>9 || yInput >9)
+  {
+    DisplayFunctions :: validInputWarning();    
+  }
+  }while(xInput < 0 || yInput < 0 || xInput >9 || yInput > 9);
+
+  if(GameplayFunctions:: isHopOnMine(board,xInput,yInput))
+  {
+    GameplayFunctions :: showBoard(board,true);   
+    DisplayFunctions :: GameOver();
+    break;
+  }
+
+  GameplayFunctions :: inputEntry(board,xInput,yInput);
+  GameplayFunctions :: showBoard(board,isWon);
+ 
+ }while(!GameplayFunctions::isPlayerWon(board));
+}
+
+
+
+
+
+
+

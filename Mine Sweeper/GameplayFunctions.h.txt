@@ -1,0 +1,22 @@
+#pragma once
+#include <iostream>
+using namespace std;
+
+
+class GameplayFunctions
+{
+  private :
+  static bool isEnterInputFirstTime; 
+  
+  public :
+   static void setIsEnterInputFirstTime(bool b); 
+   static void createEmptyBoard(string board[10][10]);
+   static void inputEntry(string board[10][10],int row , int col);
+   static void showBoard(string board[10][10],bool isWon);
+   static void createRandomMines(string board[10][10],int row,int col,int noOfMines);
+   static bool isBracketEmpty(string element);
+   static int getNoOfMines(int row,int col,string board[10][10]);
+   static void fillNumsSurrounding(int row,int col,string board[10][10]);
+   static bool isPlayerWon(string board[10][10]);
+   static bool isHopOnMine(string board[10][10],int row,int col);
+};
