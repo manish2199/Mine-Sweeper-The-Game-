@@ -195,7 +195,13 @@ void GameplayFunctions::fillNumsSurrounding(int row,int col,string board[10][10]
   {
     if(isBracketEmpty(board[row-1][col-1]))
     {
-      board[row-1][col-1] ="|"+to_string(getNoOfMines(row-1,col-1,board))+"|";
+      int noofMines = getNoOfMines(row-1,col-1,board);
+      board[row-1][col-1] ="|"+to_string(noofMines)+"|";
+      
+      if(noofMines == 0 )
+      {
+          fillNumsSurrounding(row-1,col-1,board);
+      }
     }
   }
 
@@ -204,7 +210,15 @@ void GameplayFunctions::fillNumsSurrounding(int row,int col,string board[10][10]
   {
     if(isBracketEmpty(board[row-1][col]))
     {
-      board[row-1][col] ="|"+to_string(getNoOfMines(row-1,col,board))+"|";
+
+      int noofMines = getNoOfMines(row-1,col,board);
+      board[row-1][col] ="|"+to_string(noofMines)+"|";
+ 
+  
+      if(noofMines == 0 )
+      {
+        fillNumsSurrounding(row-1,col,board);
+      }
     }
   }
 
@@ -213,7 +227,14 @@ void GameplayFunctions::fillNumsSurrounding(int row,int col,string board[10][10]
   {
     if(isBracketEmpty(board[row-1][col+1]))
     {
-      board[row-1][col+1] ="|"+to_string(getNoOfMines(row-1,col+1,board))+"|";
+      int noofMines = getNoOfMines(row-1,col+1,board);
+      board[row-1][col+1] ="|"+to_string(noofMines)+"|";
+      
+      
+      if(noofMines == 0 )
+      {
+          fillNumsSurrounding(row-1,col+1,board);
+      }
     }
   }
 
@@ -222,7 +243,14 @@ void GameplayFunctions::fillNumsSurrounding(int row,int col,string board[10][10]
   {
     if(isBracketEmpty(board[row][col-1]))
     {
-      board[row][col-1] ="|"+to_string(getNoOfMines(row,col-1,board))+"|";
+      int noofMines = getNoOfMines(row,col-1,board);
+      board[row][col-1] ="|"+to_string(noofMines)+"|";
+      
+
+      if(noofMines == 0 )
+      {
+          fillNumsSurrounding(row,col-1,board);
+      }
     }
   }
 
@@ -231,7 +259,13 @@ void GameplayFunctions::fillNumsSurrounding(int row,int col,string board[10][10]
   {
     if(isBracketEmpty(board[row][col+1]))
     {
-      board[row][col+1] ="|"+to_string(getNoOfMines(row,col+1,board))+"|";
+      int noofMines = getNoOfMines(row,col+1,board);
+      board[row][col+1] ="|"+to_string(noofMines)+"|";
+      
+      if(noofMines == 0 )
+      {
+          fillNumsSurrounding(row,col+1,board);
+      }
     }
   }
 
@@ -241,7 +275,13 @@ void GameplayFunctions::fillNumsSurrounding(int row,int col,string board[10][10]
   {
     if(isBracketEmpty(board[row+1][col-1]))
     {
-      board[row+1][col-1] ="|"+to_string(getNoOfMines(row+1,col-1,board))+"|";
+      int noofMines = getNoOfMines(row+1,col-1,board);
+      board[row+1][col-1] ="|"+to_string(noofMines)+"|";
+     
+      if(noofMines == 0 )
+      {
+          fillNumsSurrounding(row+1,col-1,board);
+      }
     }
   }
 
@@ -250,7 +290,13 @@ void GameplayFunctions::fillNumsSurrounding(int row,int col,string board[10][10]
   {
     if(isBracketEmpty(board[row+1][col]))
     {
-      board[row+1][col] ="|"+to_string(getNoOfMines(row,col,board))+"|";
+      int noofMines = getNoOfMines(row+1,col,board);
+      board[row+1][col] ="|"+to_string(noofMines)+"|";
+           
+      if(noofMines == 0 )
+      {
+          fillNumsSurrounding(row+1,col,board);
+      }
     }
   }
 
@@ -259,7 +305,13 @@ void GameplayFunctions::fillNumsSurrounding(int row,int col,string board[10][10]
   {
     if(isBracketEmpty(board[row+1][col+1]))
     {
-      board[row+1][col+1] ="|"+to_string(getNoOfMines(row+1,col+1,board))+"|";
+      int noofMines = getNoOfMines(row+1,col+1,board);
+      board[row+1][col+1] ="|"+to_string(noofMines)+"|";
+  
+      if(noofMines == 0 )
+      {
+          fillNumsSurrounding(row+1,col+1,board);
+      }
     }
   }
 }
@@ -296,6 +348,11 @@ bool GameplayFunctions::isHopOnMine(string board[10][10],int row,int col)
   }
  return false;
 }
+
+
+
+
+
 
 
 
